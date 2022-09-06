@@ -1,4 +1,5 @@
-pipeline{
+@Library("mylibs") _
+pipeline {
     agent any
     tools {
         maven 'maven2'
@@ -9,9 +10,9 @@ pipeline{
                 sh "mvn clean package"
             }
         }
-        stage("Deploy To Dev")
+        stage("Deploy To Dev"){
         steps{
-            sshagent(['tomcat-dev']){
+            sshagent(['tomcat-dev']) {
                 sh "mv target/*.war target/webapp.war"
                 sh "scp -o StrictHostKeyChecking=no target/webapp.war ec2-user@172.31.3.63:/opt/tomcat9/webapps/"
                 sh "ssh ec2-user@172.31.3.63 /opt/tomcat9/bin/shutdown.sh"
@@ -19,4 +20,5 @@ pipeline{
             }
         }
     }
+}
 }
