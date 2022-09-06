@@ -13,7 +13,7 @@ pipeline {
         stage("Deploy To Dev"){
         steps{
             sshagent(['tomcat-dev']) {
-               tomcatDeploy("tomcat-dev","ec2-user","172.31.3.63")
+               tomcatDeploy("tomcat-dev","ec2-user",["172.31.3.63"])
             }
         }
         }
